@@ -1,46 +1,21 @@
-const http = require("http");
+const express = require("express");
 const path = require("path");
-const fs = require("fs");
+const app = express();
 
-const server = http.createServer((req, res) => {
-  if (req.url === "/") {
-    // index
-    fs.readFile(
-      path.join(__dirname, "index.html"),
-      (err, content) => {
-        if (err) throw err;
-        res.writeHead(200, {"Content-Type": "text/html"});
-        res.end(content);
-      }
-    );
-  } else if (req.url === "/about") {
-    fs.readFile(  
-    path.join(__dirname, "about.html"),
-      (err, content) => {
-        if (err) throw err;
-        res.writeHead(200, {"Content-Type": "text/html"});
-        res.end(content);
-      }
-    );
-  } else if (req.url === "/contact-me") {
-    fs.readFile(  
-    path.join(__dirname, "contact-me.html"),
-      (err, content) => {
-        if (err) throw err;
-        res.writeHead(200, {"Content-Type": "text/html"});
-        res.end(content);
-      }
-    );
-  } else {
-    fs.readFile(  
-    path.join(__dirname, "404.html"),
-      (err, content) => {
-        if (err) throw err;
-        res.writeHead(200, {"Content-Type": "text/html"});
-        res.end(content);
-      }
-    );
-  }
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"))
 });
 
-server.listen(8080, () => console.log("Server is running on http://localhost:8080"));
+app.get("/about", (req, res) => {
+  res.sendFile(path.join(__dirname, "about.html"))
+});
+
+app.get("/contact-me", (req, res) => {
+  res.sendFile(path.join(__dirname, "contact-me.html"))
+});
+
+app.get("/404.html", (req, res) => {
+  res.sendFile(path.join(__dirname, "404.html"))
+});
+
+app.listen(8080, () => console.log("Server is running on http://localhost:8080"));
